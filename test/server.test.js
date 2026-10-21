@@ -1,0 +1,12 @@
+const WebSocket=require('../server/node_modules/ws');const http=require('http');
+const c=(id)=>new Promise(r=>{const w=new WebSocket('ws://localhost:3055');w.last=null;w.on('message',d=>{w.last=JSON.parse(d)});w.on('open',()=>{w.send(JSON.stringify({t:'hello',id}));setTimeout(()=>r(w),100)})});
+const sl=ms=>new Promise(r=>setTimeout(r,ms));let fail=0;const ok=(x,m)=>{console.log(x?'PASS':'FAIL',m);if(!x)fail=1};
+(async()=>{const a=await c('aaaa1'),b=await c('bbbb2'),d=await c('cccc3');
+ a.send(JSON.stringify({t:'create',name:'T',pub:true,pname:'A',lang:'id'}));await sl(150);const code=a.last.s.code;ok(!!code,'room dibuat, kode '+code);
+ const list=await new Promise(r=>http.get('http://localhost:3055/api/rooms',x=>{let s='';x.on('data',y=>s+=y);x.on('end',()=>r(JSON.parse(s)))}));ok(list.length===1&&list[0].code===code,'daftar room dari backend');
+ b.send(JSON.stringify({t:'join',code,pname:'B'}));d.send(JSON.stringify({t:'join',code,pname:'C'}));await sl(150);
+ a.send(JSON.stringify({t:'start'}));await sl(150);
+ const w=[a,b,d].map(x=>x.last.s.word);ok(w.every(Boolean)&&a.last.s.state==='hint','semua dapat kata privat, fase hint');
+ ok(!JSON.stringify(b.last.s).includes('"spy"'),'snapshot tidak membocorkan spy');
+ b.send(JSON.stringify({t:'join',code:'ZZZZ'}));[a,b,d].forEach(x=>x.close());process.exit(fail)})();
+setTimeout(()=>{console.log('FAIL timeout');process.exit(1)},6000);
