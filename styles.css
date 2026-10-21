@@ -1,0 +1,11 @@
+:root{--bg:#0a0614;--c:#12e5ff;--p:#a855ff;--t:#e8e6ff;--card:#161033}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 50% 0,#24104f,var(--bg) 60%);color:var(--t);font:16px system-ui,sans-serif;min-height:100vh}
+#app{max-width:520px;margin:0 auto;padding:max(14px,env(safe-area-inset-top)) 14px 24px}
+h1{font-size:26px;text-align:center;margin:8px 0;background:linear-gradient(90deg,var(--p),var(--c));-webkit-background-clip:text;color:transparent;letter-spacing:1px}
+.card{background:var(--card);border:1px solid #3b2a7a;border-radius:14px;padding:14px;margin:10px 0;box-shadow:0 0 14px #a855ff22}
+button,input,select{font:inherit;color:var(--t);border-radius:10px;border:1px solid #4a36a0;background:#1d1547;padding:12px;min-height:46px;width:100%}
+button{background:linear-gradient(90deg,#6d28d9,#0891b2);border:0;font-weight:600;margin-top:8px}button.g{background:#1d1547;border:1px solid var(--c)}
+button:disabled{opacity:.4}.row{display:flex;gap:8px}.row>*{flex:1}.sm{font-size:13px;opacity:.75}.me{color:var(--c)}.dead{opacity:.4;text-decoration:line-through}
+.word{font-size:28px;text-align:center;color:var(--c);text-shadow:0 0 12px var(--c)}.chat{max-height:120px;overflow:auto;font-size:14px}.err{color:#ff6b8a}
+.rm{display:flex;justify-content:space-between;align-items:center;gap:8px}.rm button{width:auto;margin:0}
+body.calm *{animation:none!important;transition:none!important}
